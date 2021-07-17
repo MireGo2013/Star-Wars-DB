@@ -41,25 +41,25 @@ const recordStarship = [
   <Record fild="cargoCapacity" label="Cargo Capacity" />,
 ];
 
-const withChildCompositionHoc = (WrapperComponent, recordDetails) => {
+const withChild = (WrapperComponent, recordDetails) => {
   return (props) => {
     return <WrapperComponent {...props}>{recordDetails}</WrapperComponent>;
   };
 };
 
 export const PersonDetails = WithDetails(
-  withChildCompositionHoc(itemDetails, recordPerson),
+  withChild(itemDetails, recordPerson),
   getPerson,
   getImagePerson
 );
 
 export const PlanetDetails = WithDetails(
-  withChildCompositionHoc(itemDetails, recordPlanet),
+  withChild(itemDetails, recordPlanet),
   getPlanet,
   getImagePlanet
 );
 export const StarshipDetails = WithDetails(
-  withChildCompositionHoc(itemDetails, recordStarship),
+  withChild(itemDetails, recordStarship),
   getStarship,
   getImageStarship
 );

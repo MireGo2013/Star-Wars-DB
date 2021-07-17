@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ErrorIndicator from "../../error-indicator";
 import Spinner from "../../spinner";
 
-export default (ViewComponent, getData) => {
+export default (ViewComponent) => {
 
   return class extends Component {
 
@@ -20,7 +20,7 @@ export default (ViewComponent, getData) => {
     }
 
     componentDidMount() {
-      getData()
+      this.props.getData()
         .then((itemList) => {
           this.setState({
             itemList,

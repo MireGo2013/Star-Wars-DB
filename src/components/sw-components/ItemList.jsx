@@ -1,12 +1,8 @@
 import WithData from "../hoc/withData";
-import SwapiService from "../../services/swapi-service";
 import ItemList from "../item-list/item-list";
+import { ConsumerSwapiService } from "../swapi-service-context";
 
-const swapiService = new SwapiService();
-
-const { getAllPeople, getAllPlanets, getAllStarships } = swapiService;
-
-const withChildCompositionHoc = (WrapperComponent, childFn) => {
+const withChild = (WrapperComponent, childFn) => {
   return (props) => {
     return <WrapperComponent {...props}>{childFn}</WrapperComponent>;
   };
@@ -14,17 +10,48 @@ const withChildCompositionHoc = (WrapperComponent, childFn) => {
 
 const renderList = ({ name }) => `${name}`;
 
-export const PersonList = WithData(
-  withChildCompositionHoc(ItemList, renderList),
-  getAllPeople
+const withConsumerSwapiService = (WrapperComponent, fn) => {
+  return (props) => {
+    return (
+      <ConsumerSwapiService>
+        {(swapiService) => {
+          const swapiServiceProps = fn(swapiService);
+          return <WrapperComponent {...props} {...swapiServiceProps} />;
+        }}
+      </ConsumerSwapiService>
+    );
+  };
+};
+
+const mapMethodsToPropsPersonList = (swapiService) => {
+  return {
+    getData: swapiService.getAllPeople,
+  };
+};
+
+const mapMethodsToPropsPlanetList = (swapiService) => {
+  return {
+    getData: swapiService.getAllPlanets,
+  };
+};
+
+const mapMethodsToPropsStarshipsList = (swapiService) => {
+  return {
+    getData: swapiService.getAllStarships,
+  };
+};
+
+export const PersonList = withConsumerSwapiService(
+  WithData(withChild(ItemList, renderList)),
+  mapMethodsToPropsPersonList
 );
 
-export const PlanetList = WithData(
-  withChildCompositionHoc(ItemList, renderList),
-  getAllPlanets
+export const PlanetList = withConsumerSwapiService(
+  WithData(withChild(ItemList, renderList)),
+  mapMethodsToPropsPlanetList
 );
 
-export const StarshipsList = WithData(
-  withChildCompositionHoc(ItemList, renderList),
-  getAllStarships
+export const StarshipsList = withConsumerSwapiService(
+  WithData(withChild(ItemList, renderList)),
+  mapMethodsToPropsStarshipsList
 );

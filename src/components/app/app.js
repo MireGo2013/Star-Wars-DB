@@ -6,11 +6,12 @@ import ErrorButton from "../error-button";
 import ErrorIndicator from "../error-indicator";
 import PeoplePage from "../people-page";
 import SwapiService from "../../services/swapi-service";
+import { ProvideSwapiService } from "../swapi-service-context";
 
 import "./app.css";
 
 export default class App extends Component {
-  swapiService = new SwapiService();
+	swapiService = new SwapiService();
 
   state = {
     showRandomPlanet: true,
@@ -37,22 +38,24 @@ export default class App extends Component {
     const planet = this.state.showRandomPlanet ? <RandomPlanet /> : null;
 
     return (
-      <div className="stardb-app">
-        <Header />
-        {planet}
+      <ProvideSwapiService value={this.swapiService}>
+        <div className="stardb-app">
+          <Header />
+          {planet}
 
-        <div className="row mb2 button-row">
-          <button
-            className="toggle-planet btn btn-warning btn-lg"
-            onClick={this.toggleRandomPlanet}
-          >
-            Toggle Random Planet
-          </button>
-          <ErrorButton />
+          <div className="row mb2 button-row">
+            <button
+              className="toggle-planet btn btn-warning btn-lg"
+              onClick={this.toggleRandomPlanet}
+            >
+              Toggle Random Planet
+            </button>
+            <ErrorButton />
+          </div>
+
+          <PeoplePage />
         </div>
-
-        <PeoplePage />
-      </div>
+      </ProvideSwapiService>
     );
   }
 }
