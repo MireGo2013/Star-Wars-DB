@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import './item-details.css';
+import "./item-details.css";
 import SwapiService from "../../services/swapi-service";
 import ErrorButton from "../error-button/error-button";
-import Spinner from '../spinner';
-import ErrorIndicator from '../error-indicator';
+import Spinner from "../spinner";
+import ErrorIndicator from "../error-indicator";
 
 export default class PersonDetails extends Component {
-
   swapiService = new SwapiService();
 
   state = {
     itemDetails: null,
-	loading: true,
-	error: false
+    loading: true,
+    error: false,
+    image: null,
   };
 
   componentDidMount() {
@@ -22,9 +22,9 @@ export default class PersonDetails extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.itemId !== prevProps.itemId) {
-		this.setState({
-			loading: true
-		})
+      this.setState({
+        loading: true,
+      });
       this.updatePerson();
     }
   }
@@ -37,44 +37,45 @@ export default class PersonDetails extends Component {
   };
 
   updatePerson() {
-    const { itemId } = this.props;
+    const { itemId, getData, getImage } = this.props;
     if (!itemId) {
       return;
     }
 
-    this.swapiService
-      .getPerson(itemId)
+    getData(itemId)
       .then((itemDetails) => {
-        this.setState({ 
-			itemDetails,
-			loading: false
-		 });
+        this.setState({
+          itemDetails,
+          loading: false,
+          image: getImage(itemDetails),
+        });
       })
-	  .catch(this.onError);
+      .catch(this.onError);
   }
 
   render() {
-
     const { itemDetails, loading, error } = this.state;
     if (!itemDetails) {
       return <span>Select a person from a list</span>;
     }
 
-	if (loading) {
-		return <Spinner/>
-	}
+    if (loading) {
+      return <Spinner />;
+    }
 
-	if (error) {
-		return <ErrorIndicator/>
-	}
+    if (error) {
+      return <ErrorIndicator />;
+    }
 
     const { id, name, gender, birthYear, eyeColor } = itemDetails;
 
     return (
       <div className="person-details card">
-        <img className="person-image"
-          src={`https://starwars-visualguide.com/assets/img/characters/${id}.jpg`}
-          alt="character"/>
+        <img
+          className="person-image"
+          src={this.state.image}
+          alt="character"
+        />
 
         <div className="card-body">
           <h4>{name}</h4>
@@ -95,6 +96,6 @@ export default class PersonDetails extends Component {
           <ErrorButton />
         </div>
       </div>
-    )
+    );
   }
 }

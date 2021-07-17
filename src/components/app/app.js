@@ -38,9 +38,21 @@ export default class App extends Component {
 
     const planet = this.state.showRandomPlanet ? <RandomPlanet /> : null;
 
+	const {getPerson, getStarship, getImagePersone, getImageStarship} = this.swapiService
 
-	const personDetails = <ItemDetails  itemId='11'/>
-	const starshipDetails = <ItemDetails  itemId='20'/>
+	const personDetails = <ItemDetails  
+	itemId='11'
+	getData={getPerson}
+	getImage={getImagePersone}
+	/>
+
+
+
+	const starshipDetails = <ItemDetails  
+	itemId='5'
+	getData={getStarship}
+	getImage={getImageStarship}
+	/>
 
 
 
