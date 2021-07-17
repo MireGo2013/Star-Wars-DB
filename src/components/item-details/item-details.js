@@ -71,20 +71,14 @@ export default class PersonDetails extends Component {
 
     return (
       <div className="person-details card">
-        <img
-          className="person-image"
-          src={this.state.image}
-          alt="character"
-        />
+        <img className="person-image" src={this.state.image} alt="character" />
 
         <div className="card-body">
           <h4>{name}</h4>
           <ul className="list-group list-group-flush">
-           {
-			   React.Children.map(this.props.children, (child) =>{
-				   return child
-			   })
-		   }
+            {React.Children.map(this.props.children, (child) => {
+              return React.cloneElement(child, {itemDetails})
+            })}
           </ul>
           <ErrorButton />
         </div>

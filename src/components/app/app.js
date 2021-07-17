@@ -51,11 +51,11 @@ export default class App extends Component {
     );
 
     const starshipDetails = (
-      <ItemDetails
-        itemId="5"
-        getData={getStarship}
-        getImage={getImageStarship}
-      />
+      <ItemDetails itemId="5" getData={getStarship} getImage={getImageStarship}>
+        <Record fild="model" label="Model" />
+        <Record fild="manufacturer" label="Manufacturer" />
+        <Record fild="crew" label="Crew" />
+      </ItemDetails>
     );
 
     return (
@@ -75,7 +75,7 @@ export default class App extends Component {
 
         <Row left={personDetails} right={starshipDetails} />
 
-        {/* <PeoplePage /> */}
+        <PeoplePage />
       </div>
     );
   }
