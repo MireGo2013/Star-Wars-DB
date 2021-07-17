@@ -9,6 +9,7 @@ import SwapiService from "../../services/swapi-service";
 import ItemList from "../item-list/item-list";
 import ItemDetails from "../item-details/item-details";
 import Row from "../Row";
+import Record from "../Record";
 import "./app.css";
 
 export default class App extends Component {
@@ -38,24 +39,24 @@ export default class App extends Component {
 
     const planet = this.state.showRandomPlanet ? <RandomPlanet /> : null;
 
-	const {getPerson, getStarship, getImagePersone, getImageStarship} = this.swapiService
+    const { getPerson, getStarship, getImagePersone, getImageStarship } =
+      this.swapiService;
 
-	const personDetails = <ItemDetails  
-	itemId='11'
-	getData={getPerson}
-	getImage={getImagePersone}
-	/>
+    const personDetails = (
+      <ItemDetails itemId="11" getData={getPerson} getImage={getImagePersone}>
+        <Record fild="gender" label="Gender" />
+        <Record fild="birthYear" label="Birth Year" />
+        <Record fild="eyeColor" label="Eye Color" />
+      </ItemDetails>
+    );
 
-
-
-	const starshipDetails = <ItemDetails  
-	itemId='5'
-	getData={getStarship}
-	getImage={getImageStarship}
-	/>
-
-
-
+    const starshipDetails = (
+      <ItemDetails
+        itemId="5"
+        getData={getStarship}
+        getImage={getImageStarship}
+      />
+    );
 
     return (
       <div className="stardb-app">
@@ -72,12 +73,9 @@ export default class App extends Component {
           <ErrorButton />
         </div>
 
-		<Row left={personDetails} right={starshipDetails}/>
+        <Row left={personDetails} right={starshipDetails} />
 
         {/* <PeoplePage /> */}
-
-        
-
       </div>
     );
   }
