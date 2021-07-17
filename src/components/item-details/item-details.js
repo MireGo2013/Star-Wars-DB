@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import './person-details.css';
+import './item-details.css';
 import SwapiService from "../../services/swapi-service";
 import ErrorButton from "../error-button/error-button";
 import Spinner from '../spinner';
@@ -11,7 +11,7 @@ export default class PersonDetails extends Component {
   swapiService = new SwapiService();
 
   state = {
-    person: null,
+    itemDetails: null,
 	loading: true,
 	error: false
   };
@@ -21,7 +21,7 @@ export default class PersonDetails extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.personId !== prevProps.personId) {
+    if (this.props.itemId !== prevProps.itemId) {
 		this.setState({
 			loading: true
 		})
@@ -30,7 +30,6 @@ export default class PersonDetails extends Component {
   }
 
   onError = (err) => {
-	  console.log(err)
     this.setState({
       error: true,
       loading: false,
@@ -38,16 +37,16 @@ export default class PersonDetails extends Component {
   };
 
   updatePerson() {
-    const { personId } = this.props;
-    if (!personId) {
+    const { itemId } = this.props;
+    if (!itemId) {
       return;
     }
 
     this.swapiService
-      .getPerson(personId)
-      .then((person) => {
+      .getPerson(itemId)
+      .then((itemDetails) => {
         this.setState({ 
-			person,
+			itemDetails,
 			loading: false
 		 });
       })
@@ -56,8 +55,8 @@ export default class PersonDetails extends Component {
 
   render() {
 
-    const { person, loading, error } = this.state;
-    if (!person) {
+    const { itemDetails, loading, error } = this.state;
+    if (!itemDetails) {
       return <span>Select a person from a list</span>;
     }
 
@@ -69,7 +68,7 @@ export default class PersonDetails extends Component {
 		return <ErrorIndicator/>
 	}
 
-    const { id, name, gender, birthYear, eyeColor } = person;
+    const { id, name, gender, birthYear, eyeColor } = itemDetails;
 
     return (
       <div className="person-details card">

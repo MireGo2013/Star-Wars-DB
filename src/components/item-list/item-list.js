@@ -1,13 +1,10 @@
 import React, { Component } from "react";
-
-import "./item-list.css";
-
 import Spinner from "../spinner/spinner";
 import ErrorIndicator from "../error-indicator";
 
+import "./item-list.css";
 export default class ItemList extends Component {
   
-
   state = {
     itemList: null,
     error: false,
@@ -38,7 +35,7 @@ export default class ItemList extends Component {
   renderItems(arr) {
     return arr.map((item) => {
 		const {id} = item
-		const label = this.props.renderItems(item)
+		const label = this.props.children(item)
       return (
         <li
           className="list-group-item"
