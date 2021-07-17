@@ -1,16 +1,20 @@
 import React, { Component } from "react";
-
-import ItemList from "../item-list/item-list";
-import ItemDetails from "../item-details/item-details";
 import ErrorBoundary from "../ErrorBoundary";
-import SwapiService from "../../services/swapi-service";
-import "./people-page.css";
 import Row from "../Row";
-import Record from "../Record";
 
+import {
+  PersonList,
+  PlanetList,
+  StarshipsList,
+} from "../sw-components/ItemList";
+import {
+  PersonDetails,
+  PlanetDetails,
+  StarshipDetails,
+} from "../sw-components/Details";
+
+import "./people-page.css";
 export default class PeoplePage extends Component {
-  swapiService = new SwapiService();
-
   state = {
     selectedItem: null,
   };
@@ -19,40 +23,49 @@ export default class PeoplePage extends Component {
     this.setState({ selectedItem });
   };
 
-  
   render() {
-
-	const {getAllPeople, getPerson, getImagePersone } = this.swapiService
-	
-    const itemList = (
+    const personList = (
       <ErrorBoundary>
-        <ItemList
-          onItemSelected={this.onItemSelected}
-          getData={getAllPeople}
-        >
-          {(i) => `${i.name} ${i.gender} ${i.eyeColor}`}
-        </ItemList>
+        <PersonList onItemSelected={this.onItemSelected} />
       </ErrorBoundary>
     );
 
-	const itemDetails = (
-		<ItemDetails
-		  itemId={this.state.selectedItem}
-		  getData={getPerson}
-		  getImage={getImagePersone}
-		>
-		  <Record fild="gender" label="Gender" />
-		  <Record fild="birthYear" label="Birth Year" />
-		  <Record fild="eyeColor" label="Eye Color" />
-		</ItemDetails>
-	  );
+    const planetList = (
+      <ErrorBoundary>
+        <PlanetList onItemSelected={this.onItemSelected} />
+      </ErrorBoundary>
+    );
+
+    const starshipList = (
+      <ErrorBoundary>
+        <StarshipsList onItemSelected={this.onItemSelected} />
+      </ErrorBoundary>
+    );
 
     const personDetails = (
       <ErrorBoundary>
-        {itemDetails}
+        <PersonDetails itemId={this.state.selectedItem} />
       </ErrorBoundary>
     );
 
-    return <Row left={itemList} right={personDetails} />;
+    const planetDetails = (
+      <ErrorBoundary>
+        <PlanetDetails itemId={this.state.selectedItem} />
+      </ErrorBoundary>
+    );
+
+    const starshipDetails = (
+      <ErrorBoundary>
+        <StarshipDetails itemId={this.state.selectedItem} />
+      </ErrorBoundary>
+    );
+
+    return (
+      <>
+        <Row left={personList} right={personDetails} />
+        <Row left={planetList} right={planetDetails} />
+        <Row left={starshipList} right={starshipDetails} />
+      </>
+    );
   }
 }

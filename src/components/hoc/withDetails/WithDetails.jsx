@@ -50,7 +50,8 @@ export default (ViewComponent, getItemDetails, getItemImage) => {
     }
 
     render() {
-      const { itemDetails, loading, error } = this.state;
+      const { itemDetails, loading, error, image } = this.state;
+
       if (!itemDetails) {
         return <span>Select a person from a list</span>;
       }
@@ -60,15 +61,14 @@ export default (ViewComponent, getItemDetails, getItemImage) => {
       if (error) {
         return <ErrorIndicator />;
       }
-
-      const {
-        itemDetails: { name },
-        image,
-      } = this.state;
-
+	  
       return (
         <>
-          <ViewComponent {...this.props} image={image} name={name} />
+          <ViewComponent
+            {...this.props}
+            image={image}
+            itemDetails={itemDetails}
+          />
           <ErrorButton />
         </>
       );

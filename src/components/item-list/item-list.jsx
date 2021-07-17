@@ -1,6 +1,3 @@
-import React, { Component } from "react";
-import WithData from "../hoc/withData";
-import SwapiService from "../../services/swapi-service";
 import "./item-list.css";
 
 let ItemList = (props) => {
@@ -23,6 +20,6 @@ let ItemList = (props) => {
   return <ul className="item-list list-group">{items}</ul>;
 };
 
-const swapiService = new SwapiService();
 
-export default WithData(ItemList, swapiService.getAllPeople);
+
+export default ItemList
