@@ -55,9 +55,7 @@ export default class ItemList extends Component {
 		return <ErrorIndicator />;
     }
 	
-	if (loading) {
-	  return <Spinner />;
-	}
+	
 
     const items = this.renderItems(peopleList);
 
