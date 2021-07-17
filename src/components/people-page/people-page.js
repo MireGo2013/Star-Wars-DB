@@ -23,6 +23,7 @@ export default class PeoplePage extends Component {
   render() {
 
 	const {getAllPeople, getPerson, getImagePersone } = this.swapiService
+	
     const itemList = (
       <ErrorBoundary>
         <ItemList

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import ErrorIndicator from "../error-indicator";
-import Spinner from "../spinner";
+import ErrorIndicator from "../../error-indicator";
+import Spinner from "../../spinner";
 
 export default (ViewComponent, getData) => {
 

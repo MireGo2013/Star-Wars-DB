@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import WithData from "../hoc";
+import WithData from "../hoc/withData";
 import SwapiService from "../../services/swapi-service";
 import "./item-list.css";
 
