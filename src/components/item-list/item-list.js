@@ -1,67 +1,28 @@
 import React, { Component } from "react";
-import Spinner from "../spinner/spinner";
-import ErrorIndicator from "../error-indicator";
-
+import WithData from "../hoc";
+import SwapiService from "../../services/swapi-service";
 import "./item-list.css";
-export default class ItemList extends Component {
-  
-  state = {
-    itemList: null,
-    error: false,
-    loading: true,
-  };
 
-  onError = (err) => {
-	  
-    this.setState({
-      error: true,
-      loading: false,
-    });
-  };
+let ItemList = (props) => {
+  const data = props.data;
+  const items = data.map((item) => {
+    const { id } = item;
+    const label = props.children(item);
 
-  componentDidMount() {
-    const { getData } = this.props;
+    return (
+      <li
+        className="list-group-item"
+        key={id}
+        onClick={() => props.onItemSelected(id)}
+      >
+        {label}
+      </li>
+    );
+  });
 
-    getData()
-      .then((itemList) => {
-        this.setState({
-          itemList,
-          loading: false,
-        });
-      })
-      .catch(this.onError);
-  }
+  return <ul className="item-list list-group">{items}</ul>;
+};
 
-  renderItems(arr) {
-    return arr.map((item) => {
-		const {id} = item
-		const label = this.props.children(item)
-      return (
-        <li
-          className="list-group-item"
-          key={id}
-          onClick={() => this.props.onItemSelected(id)}
-        >
-          {label}
-        </li>
-      );
-    });
-  }
+const swapiService = new SwapiService();
 
-  render() {
-    const { itemList, loading, error } = this.state;
-
-    if (error) {
-		console.log(error)
-      return <ErrorIndicator />;
-    }
-
-    if (loading) {
-      return <Spinner />;
-    }
-
-    const items = this.renderItems(itemList);
-
-    return <ul className="item-list list-group">{items}</ul>;
-  }
-}
+export default WithData(ItemList, swapiService.getAllPeople);
