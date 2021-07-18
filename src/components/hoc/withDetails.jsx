@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import ErrorButton from "../../error-button";
-import ErrorIndicator from "../../error-indicator";
-import Spinner from "../../spinner";
+import ErrorIndicator from "../error-indicator";
+import Spinner from "../spinner";
 
-export default (ViewComponent, getItemDetails, getItemImage) => {
+export const withDetails = (ViewComponent) => {
   return class extends Component {
     state = {
       itemDetails: null,
@@ -38,12 +37,13 @@ export default (ViewComponent, getItemDetails, getItemImage) => {
         return;
       }
 
-      getItemDetails(itemId)
+      this.props
+        .getData(itemId)
         .then((itemDetails) => {
           this.setState({
             itemDetails,
             loading: false,
-            image: getItemImage(itemDetails),
+            image: this.props.getImage(itemDetails),
           });
         })
         .catch(this.onError);
@@ -61,16 +61,13 @@ export default (ViewComponent, getItemDetails, getItemImage) => {
       if (error) {
         return <ErrorIndicator />;
       }
-	  
+
       return (
-        <>
-          <ViewComponent
-            {...this.props}
-            image={image}
-            itemDetails={itemDetails}
-          />
-          <ErrorButton />
-        </>
+        <ViewComponent
+          {...this.props}
+          image={image}
+          itemDetails={itemDetails}
+        />
       );
     }
   };

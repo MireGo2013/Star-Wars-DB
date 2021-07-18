@@ -1,4 +1,4 @@
-export default ({ left, right }) => {
+const Row = ({ left, right }) => {
   return (
     <div className="row mb2">
       <div className="col-md-6">{left}</div>
@@ -6,3 +6,5 @@ export default ({ left, right }) => {
     </div>
   );
 };
+
+export default Row;

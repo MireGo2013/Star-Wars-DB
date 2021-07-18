@@ -10,7 +10,6 @@ const ItemDetails = ({ image, itemDetails, children }) => {
         <h4>{itemDetails.name}</h4>
         <ul className="list-group list-group-flush">
           {React.Children.map(children, (child) => {
-			  
             return React.cloneElement(child, { itemDetails });
           })}
         </ul>

@@ -1,19 +1,7 @@
 import React from "react";
 import Record from "../Record";
-import SwapiService from "../../services/swapi-service";
-import WithDetails from "../hoc/withDetails/WithDetails";
 import itemDetails from "../item-details/item-details";
-
-const swapiService = new SwapiService();
-
-const {
-  getPerson,
-  getPlanet,
-  getStarship,
-  getImagePerson,
-  getImagePlanet,
-  getImageStarship,
-} = swapiService;
+import { withChild, withConsumerSwapiService, withDetails } from "../hoc";
 
 const recordPerson = [
   <Record fild="gender" label="Gender" />,
@@ -41,25 +29,38 @@ const recordStarship = [
   <Record fild="cargoCapacity" label="Cargo Capacity" />,
 ];
 
-const withChild = (WrapperComponent, recordDetails) => {
-  return (props) => {
-    return <WrapperComponent {...props}>{recordDetails}</WrapperComponent>;
+const mapMethodsToPropsPersonDetails = (swapiService) => {
+  return {
+    getData: swapiService.getPerson,
+    getImage: swapiService.getImagePerson,
   };
 };
 
-export const PersonDetails = WithDetails(
-  withChild(itemDetails, recordPerson),
-  getPerson,
-  getImagePerson
+const mapMethodsToPropsPlanetDetails = (swapiService) => {
+  return {
+    getData: swapiService.getPlanet,
+    getImage: swapiService.getImagePlanet,
+  };
+};
+
+const mapMethodsToPropsStarshipDetails = (swapiService) => {
+  return {
+    getData: swapiService.getStarship,
+    getImage: swapiService.getImageStarship,
+  };
+};
+
+export const PersonDetails = withConsumerSwapiService(
+  withDetails(withChild(itemDetails, recordPerson)),
+  mapMethodsToPropsPersonDetails
 );
 
-export const PlanetDetails = WithDetails(
-  withChild(itemDetails, recordPlanet),
-  getPlanet,
-  getImagePlanet
+export const PlanetDetails = withConsumerSwapiService(
+  withDetails(withChild(itemDetails, recordPlanet)),
+  mapMethodsToPropsPlanetDetails
 );
-export const StarshipDetails = WithDetails(
-  withChild(itemDetails, recordStarship),
-  getStarship,
-  getImageStarship
+
+export const StarshipDetails = withConsumerSwapiService(
+  withDetails(withChild(itemDetails, recordStarship)),
+  mapMethodsToPropsStarshipDetails
 );
