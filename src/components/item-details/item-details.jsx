@@ -4,8 +4,7 @@ import "./item-details.css";
 const ItemDetails = ({ image, itemDetails, children }) => {
   return (
     <div className="person-details card">
-      <img className="person-image" src={image} alt="have't picture" />
-
+      <img className="person-image" src={image} alt={itemDetails.name} />
       <div className="card-body">
         <h4>{itemDetails.name}</h4>
         <ul className="list-group list-group-flush">

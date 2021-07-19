@@ -17,9 +17,6 @@ export const withDetails = (ViewComponent) => {
 
     componentDidUpdate(prevProps) {
       if (this.props.itemId !== prevProps.itemId) {
-        this.setState({
-          loading: true,
-        });
         this.updatePerson();
       }
     }
@@ -36,7 +33,9 @@ export const withDetails = (ViewComponent) => {
       if (!itemId) {
         return;
       }
-
+      this.setState({
+        loading: true,
+      });
       this.props
         .getData(itemId)
         .then((itemDetails) => {

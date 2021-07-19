@@ -20,14 +20,6 @@ export class PeoplePage extends Component {
         right={<PersonDetails itemId={this.state.selectedItem} />}
       />
 
-      // <Row
-      //   left={<PlanetList onItemSelected={this.onItemSelected} />}
-      //   right={<PlanetDetails itemId={this.state.selectedItem} />}
-      // />
-      // <Row
-      //   left={<StarshipsList onItemSelected={this.onItemSelected} />}
-      //   right={<StarshipDetails itemId={this.state.selectedItem} />}
-      // />
     );
   }
 }

@@ -18,6 +18,10 @@ export const withData = (ViewComponent) => {
     };
 
     componentDidMount() {
+      this.setState({
+        error: false,
+        loading: true,
+      });
       this.props
         .getData()
         .then((itemList) => {

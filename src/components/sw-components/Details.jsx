@@ -1,7 +1,12 @@
 import React from "react";
 import Record from "../Record";
 import itemDetails from "../item-details/item-details";
-import { withChild, withConsumerSwapiService, withDetails } from "../hoc";
+import {
+  withChild,
+  withConsumerSwapiService,
+  withDetails,
+  compose,
+} from "../hoc";
 
 const recordPerson = [
   <Record fild="gender" label="Gender" />,
@@ -50,17 +55,20 @@ const mapMethodsToPropsStarshipDetails = (swapiService) => {
   };
 };
 
-export const PersonDetails = withConsumerSwapiService(
-  withDetails(withChild(itemDetails, recordPerson)),
-  mapMethodsToPropsPersonDetails
-);
+export const PersonDetails = compose(
+  withConsumerSwapiService(mapMethodsToPropsPersonDetails),
+  withDetails,
+  withChild(recordPerson)
+)(itemDetails);
 
-export const PlanetDetails = withConsumerSwapiService(
-  withDetails(withChild(itemDetails, recordPlanet)),
-  mapMethodsToPropsPlanetDetails
-);
+export const PlanetDetails = compose(
+  withConsumerSwapiService(mapMethodsToPropsPlanetDetails),
+  withDetails,
+  withChild(recordPlanet)
+)(itemDetails);
 
-export const StarshipDetails = withConsumerSwapiService(
-  withDetails(withChild(itemDetails, recordStarship)),
-  mapMethodsToPropsStarshipDetails
-);
+export const StarshipDetails = compose(
+  withConsumerSwapiService(mapMethodsToPropsStarshipDetails),
+  withDetails,
+  withChild(recordStarship)
+)(itemDetails);

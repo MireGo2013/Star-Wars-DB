@@ -1,5 +1,10 @@
 import ItemList from "../item-list/item-list";
-import { withConsumerSwapiService, withChild, withData } from "./../hoc";
+import {
+  withConsumerSwapiService,
+  withChild,
+  withData,
+  compose,
+} from "./../hoc";
 
 const renderList = ({ name }) => `${name}`;
 
@@ -21,17 +26,22 @@ const mapMethodsToPropsStarshipsList = (swapiService) => {
   };
 };
 
-export const PersonList = withConsumerSwapiService(
-  withData(withChild(ItemList, renderList)),
-  mapMethodsToPropsPersonList
-);
+export const PersonList = compose(
+  withConsumerSwapiService(mapMethodsToPropsPersonList),
+  withData,
+  withChild(renderList)
+)(ItemList);
 
-export const PlanetList = withConsumerSwapiService(
-  withData(withChild(ItemList, renderList)),
-  mapMethodsToPropsPlanetList
-);
+export const PlanetList = compose(
+  withConsumerSwapiService(mapMethodsToPropsPlanetList),
+  withData,
+  withData,
+  withChild(renderList)
+)(ItemList);
 
-export const StarshipsList = withConsumerSwapiService(
-  withData(withChild(ItemList, renderList)),
-  mapMethodsToPropsStarshipsList
-);
+export const StarshipsList = compose(
+  withConsumerSwapiService(mapMethodsToPropsStarshipsList),
+  withData,
+  withData,
+  withChild(renderList)
+)(ItemList);
