@@ -1,24 +1,18 @@
-import React, { Component } from "react";
+import React from "react";
 import Row from "../Row";
 import { PlanetList } from "../sw-components/ItemList";
 import { PlanetDetails } from "../sw-components/Details";
 import "./page.css";
+import { withRouter } from "react-router-dom";
 
-export class PlanetPage extends Component {
-  state = {
-    selectedItem: null,
-  };
+const PlanetPage = ({ match, history }) => {
+  const { id } = match.params;
+  return (
+    <Row
+      left={<PlanetList onItemSelected={(itemId) => history.push(itemId)} />}
+      right={<PlanetDetails itemId={id} />}
+    />
+  );
+};
 
-  onItemSelected = (selectedItem) => {
-    this.setState({ selectedItem });
-  };
-
-  render() {
-    return (
-      <Row
-        left={<PlanetList onItemSelected={this.onItemSelected} />}
-        right={<PlanetDetails itemId={this.state.selectedItem} />}
-      />
-    );
-  }
-}
+export default withRouter(PlanetPage);
